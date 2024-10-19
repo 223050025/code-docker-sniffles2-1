@@ -19,7 +19,7 @@ RUN pip install sniffles
 # Set working directory
 WORKDIR /root
 
-# Add Bismark to PATH
+# Add Sniffles2 to PATH
 ENV PATH="/root/sniffles2/bin:$PATH"
 
 # Download the set.thread.num.sh script
