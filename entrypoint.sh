@@ -6,6 +6,9 @@
 INPUT_DIR="/mnt/in"
 OUTPUT_DIR="/mnt/out"
 
+# Ensure output directory exists
+mkdir -p "$OUTPUT_DIR"
+
 # Source the script to set THREAD_NUM
 echo -e "\e[0;34mInfo: Running set.thread.num.sh to set THREAD_NUM...\e[0m"
 source /root/set.thread.num.sh
@@ -17,8 +20,11 @@ for bamfile in "$INPUT_DIR"/*.bam; do
     continue
   fi
 
-  # Generate the VCF file path from the BAM file path
-  vcf_file="${bamfile%.bam}.vcf"
+  # Extract filename without path and extension
+  filename=$(basename "${bamfile%.*}")
+
+  # Generate the VCF file path
+  vcf_file="$OUTPUT_DIR/$filename.vcf"
 
   # Start processing with Sniffles2
   echo -e "\e[0;34mInfo: Processing $bamfile with Sniffles2...\e[0m"
