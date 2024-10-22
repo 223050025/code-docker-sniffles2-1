@@ -74,12 +74,17 @@ jobs:
           DIGEST: ${{ steps.build-and-push.outputs.digest }}
         run: echo "${TAGS}" | xargs -I {} cosign sign --yes {}@${DIGEST}
             
+      - name: Set date
+        id: date
+        run: echo "::set-output name=date::$(date +%Y%m%d)"
+      
       - name: Build and push image to dockerhub
         uses: docker/build-push-action@v5
         with:
-            file: base/Dockerfile
+            context: .
+            file: ./Dockerfile
             platforms: linux/amd64
             push: true
             tags: |
               cuhkhaosun/sniffles2:latest
-              cuhkhaosun/sniffles2:$(date +%Y%m%d)
+              cuhkhaosun/sniffles2:${{ steps.date.outputs.date }}
